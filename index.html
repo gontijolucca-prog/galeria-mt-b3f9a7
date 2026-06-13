@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noimageindex">
+<title>Batizado · Maria y Teo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400;1,9..144,500&family=Archivo:wght@200;500;800&family=Archivo+Expanded:wght@800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#f3ece1; --ink-soft:#b7ab98; --ink-faint:#6f6555;
+    --bg:#0c0a08; --bg2:#15110d; --panel:#1b1611;
+    --accent:#d98a3d; --accent-2:#e9b574; --line:#2a2219;
+    --r:14px; --dur:.5s; --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:'Archivo',-apple-system,BlinkMacSystemFont,sans-serif;
+    font-weight:500; line-height:1.5; overflow-x:hidden;
+    background-image:
+      radial-gradient(1200px 700px at 78% -8%, rgba(217,138,61,.16), transparent 60%),
+      radial-gradient(900px 600px at 10% 4%, rgba(233,181,116,.07), transparent 55%),
+      linear-gradient(180deg, var(--bg2), var(--bg) 38%);
+    background-attachment:fixed;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:1; opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode:overlay;
+  }
+  .wrap{position:relative; z-index:2; max-width:1320px; margin:0 auto; padding:0 24px}
+
+  /* ---- hero ---- */
+  header{padding:clamp(64px,12vw,150px) 0 clamp(34px,5vw,64px); position:relative}
+  .eyebrow{
+    font-family:'Archivo',sans-serif; font-weight:800; letter-spacing:.42em;
+    text-transform:uppercase; font-size:12px; color:var(--accent-2);
+    opacity:0; transform:translateY(14px); animation:rise .8s var(--ease) .1s forwards;
+  }
+  h1{
+    font-family:'Fraunces',serif; font-weight:300; line-height:.92;
+    font-size:clamp(58px,15vw,184px); letter-spacing:-.02em; margin:.12em 0 .08em;
+    opacity:0; transform:translateY(22px); animation:rise 1s var(--ease) .22s forwards;
+  }
+  h1 em{
+    font-style:italic; font-weight:400; color:var(--accent);
+    display:block; font-size:.62em; letter-spacing:-.01em; margin-top:-.06em;
+  }
+  .sub{
+    display:flex; gap:22px; flex-wrap:wrap; align-items:baseline;
+    font-family:'Archivo',sans-serif; font-weight:200; color:var(--ink-soft);
+    font-size:clamp(14px,1.6vw,18px); letter-spacing:.02em;
+    opacity:0; transform:translateY(16px); animation:rise .9s var(--ease) .42s forwards;
+  }
+  .sub b{color:var(--ink); font-weight:500}
+  .sub .dot{color:var(--ink-faint)}
+  .hint{
+    margin-top:26px; font-size:13px; color:var(--ink-faint); font-weight:500;
+    letter-spacing:.01em; opacity:0; animation:rise .9s var(--ease) .6s forwards;
+  }
+  .hint b{color:var(--accent-2); font-weight:800}
+
+  /* ---- grid ---- */
+  .grid{
+    columns:4 240px; column-gap:14px; padding-bottom:90px;
+  }
+  @media(max-width:520px){ .grid{column-gap:10px} }
+  figure{
+    break-inside:avoid; margin:0 0 14px; position:relative; cursor:pointer;
+    border-radius:var(--r); overflow:hidden; background:var(--panel);
+    border:1px solid var(--line); opacity:0; transform:translateY(20px);
+    transition:transform .45s var(--ease), box-shadow .45s var(--ease), border-color .3s;
+  }
+  figure.in{animation:rise .7s var(--ease) forwards}
+  figure img{display:block; width:100%; height:auto; transition:transform .7s var(--ease), filter .5s}
+  figure:hover{transform:translateY(-4px); box-shadow:0 18px 40px -18px rgba(0,0,0,.8); border-color:rgba(217,138,61,.5)}
+  figure:hover img{transform:scale(1.045)}
+  figure .ix{
+    position:absolute; left:10px; top:9px; font-family:'Archivo',sans-serif;
+    font-weight:800; font-size:11px; letter-spacing:.1em; color:var(--ink);
+    background:rgba(12,10,8,.5); backdrop-filter:blur(6px);
+    padding:3px 8px; border-radius:20px; opacity:0; transition:opacity .3s;
+  }
+  figure:hover .ix{opacity:1}
+  figure .dl{
+    position:absolute; right:9px; bottom:9px; width:34px; height:34px; border-radius:50%;
+    display:grid; place-items:center; background:var(--accent); color:#1a1206;
+    opacity:0; transform:translateY(6px) scale(.9); transition:all .3s var(--ease);
+    box-shadow:0 6px 16px -4px rgba(217,138,61,.6);
+  }
+  figure:hover .dl{opacity:1; transform:translateY(0) scale(1)}
+  figure .dl:hover{background:var(--accent-2)}
+  figure .dl svg{width:17px;height:17px}
+
+  /* ---- lightbox ---- */
+  .lb{
+    position:fixed; inset:0; z-index:50; display:none; place-items:center;
+    background:rgba(7,6,4,.94); backdrop-filter:blur(10px); padding:18px;
+  }
+  .lb.on{display:grid; animation:fade .3s ease}
+  .lb img{max-width:94vw; max-height:82vh; border-radius:10px; box-shadow:0 30px 80px -20px #000}
+  .lb .bar{
+    position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+    display:flex; gap:10px; align-items:center;
+  }
+  .lb .btn{
+    font-family:'Archivo',sans-serif; font-weight:800; letter-spacing:.06em; font-size:13px;
+    text-transform:uppercase; padding:13px 22px; border-radius:40px; border:1px solid var(--line);
+    background:var(--panel); color:var(--ink); cursor:pointer; text-decoration:none;
+    display:inline-flex; gap:9px; align-items:center; transition:all .25s var(--ease);
+  }
+  .lb .btn.primary{background:var(--accent); color:#1a1206; border-color:transparent}
+  .lb .btn:hover{transform:translateY(-2px)}
+  .lb .btn.primary:hover{background:var(--accent-2)}
+  .lb .btn svg{width:16px;height:16px}
+  .lb .nav{
+    position:absolute; top:50%; transform:translateY(-50%); width:52px; height:52px;
+    border-radius:50%; background:var(--panel); border:1px solid var(--line); color:var(--ink);
+    display:grid; place-items:center; cursor:pointer; transition:all .25s; user-select:none;
+  }
+  .lb .nav:hover{background:var(--accent); color:#1a1206; border-color:transparent}
+  .lb .prev{left:18px} .lb .next{right:18px}
+  .lb .close{position:absolute; top:18px; right:20px; width:46px; height:46px; border-radius:50%;
+    background:var(--panel); border:1px solid var(--line); color:var(--ink); cursor:pointer;
+    display:grid; place-items:center; transition:all .25s}
+  .lb .close:hover{background:var(--accent); color:#1a1206}
+  .lb .count{position:absolute; top:26px; left:24px; font-family:'Archivo';font-weight:800;
+    letter-spacing:.14em; font-size:12px; color:var(--ink-soft)}
+  @media(max-width:600px){ .lb .nav{width:42px;height:42px} .lb .btn{padding:11px 16px;font-size:11px} }
+
+  footer{padding:40px 0 70px; border-top:1px solid var(--line); color:var(--ink-faint);
+    font-size:13px; font-weight:500; display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px}
+  footer b{color:var(--ink-soft); font-weight:800}
+
+  @keyframes rise{to{opacity:1; transform:none}}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Álbum de família</div>
+    <h1>Batizado<em>Maria y Teo</em></h1>
+    <div class="sub">
+      <span><b id="n">—</b> fotografias</span><span class="dot">/</span>
+      <span>qualidade total</span><span class="dot">/</span>
+      <span>download livre</span>
+    </div>
+    <p class="hint">Toca numa foto p/ ver grande. Botão <b>↓</b> descarrega o original sem perder qualidade.</p>
+  </header>
+  <main class="grid" id="grid"></main>
+  <footer>
+    <span>Batizado <b>Maria y Teo</b></span>
+    <span>262 fotos · originais em alta resolução</span>
+  </footer>
+</div>
+
+<div class="lb" id="lb">
+  <div class="count" id="lbCount"></div>
+  <button class="close" id="lbClose" aria-label="Fechar">✕</button>
+  <div class="nav prev" id="lbPrev">‹</div>
+  <div class="nav next" id="lbNext">›</div>
+  <img id="lbImg" alt="">
+  <div class="bar">
+    <a class="btn primary" id="lbDl" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+      Descarregar original
+    </a>
+  </div>
+</div>
+
+<script>
+const ICON_DL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>';
+let PHOTOS=[], cur=0;
+const grid=document.getElementById('grid');
+const lb=document.getElementById('lb'), lbImg=document.getElementById('lbImg'),
+      lbDl=document.getElementById('lbDl'), lbCount=document.getElementById('lbCount');
+
+fetch('photos.json').then(r=>r.json()).then(list=>{
+  PHOTOS=list;
+  document.getElementById('n').textContent=list.length;
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'200px'});
+  list.forEach((p,i)=>{
+    const fig=document.createElement('figure');
+    fig.style.animationDelay=(Math.min(i,12)*40)+'ms';
+    fig.innerHTML=`<span class="ix">${String(i+1).padStart(3,'0')}</span>
+      <img loading="lazy" src="thumb/g_${p.f}" alt="Foto ${i+1}">
+      <a class="dl" href="full/${p.f}" download onclick="event.stopPropagation()" aria-label="Descarregar">${ICON_DL}</a>`;
+    fig.querySelector('img').addEventListener('click',()=>open_(i));
+    fig.querySelector('.ix').addEventListener('click',()=>open_(i));
+    grid.appendChild(fig); io.observe(fig);
+  });
+});
+
+function open_(i){cur=i; show(); lb.classList.add('on'); document.body.style.overflow='hidden';}
+function show(){
+  const p=PHOTOS[cur];
+  lbImg.src='thumb/'+p.f;
+  lbDl.href='full/'+p.f; lbDl.setAttribute('download',p.f);
+  lbCount.textContent=String(cur+1).padStart(3,'0')+' / '+PHOTOS.length;
+}
+function close_(){lb.classList.remove('on'); document.body.style.overflow='';}
+function nav(d){cur=(cur+d+PHOTOS.length)%PHOTOS.length; show();}
+document.getElementById('lbClose').onclick=close_;
+document.getElementById('lbPrev').onclick=()=>nav(-1);
+document.getElementById('lbNext').onclick=()=>nav(1);
+lb.addEventListener('click',e=>{if(e.target===lb)close_()});
+document.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('on'))return;
+  if(e.key==='Escape')close_(); if(e.key==='ArrowRight')nav(1); if(e.key==='ArrowLeft')nav(-1);
+});
+</script>
+</body>
+</html>
