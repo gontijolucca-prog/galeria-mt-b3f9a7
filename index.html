@@ -215,8 +215,9 @@ function render(){
   VIS.forEach((p,i)=>{
     const fig=document.createElement('figure');
     fig.style.animationDelay=(Math.min(i,10)*40)+'ms';
+    if(p.w&&p.h) fig.style.aspectRatio=p.w+' / '+p.h;   // reserve space -> no reflow
     fig.innerHTML=`<button class="del" title="Ocultar" aria-label="Ocultar">${ICON_X}</button>
-      <img loading="lazy" src="thumb/g_${p.f}" alt="Foto ${i+1}">
+      <img loading="lazy" decoding="async" src="thumb/g_${p.f}" alt="Foto ${i+1}">
       <span class="ix">${String(i+1).padStart(3,'0')}</span>`;
     fig.querySelector('img').addEventListener('click',()=>open_(i));
     fig.querySelector('.del').addEventListener('click',(e)=>{e.stopPropagation(); del(p.f, fig);});
@@ -248,14 +249,17 @@ function showToast(m){toast.textContent=m; toast.classList.add('on'); clearTimeo
 function open_(i){cur=i; show(); lb.classList.add('on'); document.body.style.overflow='hidden';}
 function show(){
   const p=VIS[cur];
+  // preview = light "view" tier (~1600px, fast). Download stays full-res.
   lbImg.classList.add('ld'); lbSpin.classList.add('on');
-  lbImg.src='thumb/'+p.f;
-  const full=new Image();
-  full.onload=()=>{ if(VIS[cur] && VIS[cur].f===p.f){ lbImg.src=full.src; lbImg.classList.remove('ld'); lbSpin.classList.remove('on'); } };
-  full.onerror=()=>{ lbImg.classList.remove('ld'); lbSpin.classList.remove('on'); };
-  full.src='full/'+p.f;
+  lbImg.src='thumb/'+p.f;                    // instant blurred placeholder
+  const v=new Image();
+  v.onload=()=>{ if(VIS[cur] && VIS[cur].f===p.f){ lbImg.src=v.src; lbImg.classList.remove('ld'); lbSpin.classList.remove('on'); } };
+  v.onerror=()=>{ lbImg.classList.remove('ld'); lbSpin.classList.remove('on'); };
+  v.src='view/'+p.f;
   lbDl.href='full/'+p.f; lbDl.setAttribute('download',p.f);
   lbCount.textContent=String(cur+1).padStart(3,'0')+' / '+VIS.length;
+  // prefetch neighbours for snappy arrow nav
+  [1,-1].forEach(d=>{ const n=VIS[(cur+d+VIS.length)%VIS.length]; if(n){ const im=new Image(); im.src='view/'+n.f; } });
 }
 function close_(){lb.classList.remove('on'); document.body.style.overflow='';}
 function nav(d){cur=(cur+d+VIS.length)%VIS.length; show();}
