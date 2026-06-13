@@ -102,7 +102,13 @@
     background:rgba(7,6,4,.94); backdrop-filter:blur(10px); padding:18px;
   }
   .lb.on{display:grid; animation:fade .3s ease}
-  .lb img{max-width:94vw; max-height:82vh; border-radius:10px; box-shadow:0 30px 80px -20px #000}
+  .lb img{max-width:94vw; max-height:82vh; border-radius:10px; box-shadow:0 30px 80px -20px #000; transition:filter .4s var(--ease)}
+  .lb img.ld{filter:blur(14px)}
+  .lb .spin{position:absolute; top:50%; left:50%; width:34px; height:34px; margin:-17px;
+    border:3px solid rgba(255,255,255,.25); border-top-color:var(--accent); border-radius:50%;
+    animation:spin .8s linear infinite; opacity:0; transition:opacity .2s; pointer-events:none}
+  .lb .spin.on{opacity:1}
+  @keyframes spin{to{transform:rotate(360deg)}}
   .lb .bar{
     position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
     display:flex; gap:10px; align-items:center;
@@ -165,6 +171,7 @@
   <button class="close" id="lbClose" aria-label="Fechar">✕</button>
   <div class="nav prev" id="lbPrev">‹</div>
   <div class="nav next" id="lbNext">›</div>
+  <div class="spin" id="lbSpin"></div>
   <img id="lbImg" alt="">
   <div class="bar">
     <a class="btn primary" id="lbDl" download>
@@ -197,10 +204,17 @@ fetch('photos.json').then(r=>r.json()).then(list=>{
   });
 });
 
+const lbSpin=document.getElementById('lbSpin');
 function open_(i){cur=i; show(); lb.classList.add('on'); document.body.style.overflow='hidden';}
 function show(){
   const p=PHOTOS[cur];
+  // instant low-res preview (blurred), then swap to full resolution when ready
+  lbImg.classList.add('ld'); lbSpin.classList.add('on');
   lbImg.src='thumb/'+p.f;
+  const full=new Image();
+  full.onload=()=>{ if(PHOTOS[cur] && PHOTOS[cur].f===p.f){ lbImg.src=full.src; lbImg.classList.remove('ld'); lbSpin.classList.remove('on'); } };
+  full.onerror=()=>{ lbImg.classList.remove('ld'); lbSpin.classList.remove('on'); };
+  full.src='full/'+p.f;
   lbDl.href='full/'+p.f; lbDl.setAttribute('download',p.f);
   lbCount.textContent=String(cur+1).padStart(3,'0')+' / '+PHOTOS.length;
 }
