@@ -4,40 +4,32 @@
 
 <!-- claude-evolve:managed-start -->
 
-<!-- claude-evolve:rule id=r_mqcxxtsu_l42s score=5.4 created=2026-06-13 source=observation complexity=simple -->
-- After taking a Playwright screenshot, immediately search for the file in known output locations (~/.playwright-mcp/, ~/Desktop, ~/) using find with -newermt before assuming the path
-<!-- /claude-evolve:rule -->
-
-<!-- claude-evolve:rule id=r_mqcxxtto_70k9 score=5 created=2026-06-13 source=observation complexity=simple -->
-- After git push, poll GitHub Pages deployment status via GitHub API (repos/{owner}/{repo}/pages/builds or deployments) in a loop before opening Playwright to verify — do not navigate immediately after push
-<!-- /claude-evolve:rule -->
-
-<!-- claude-evolve:rule id=r_mqcxxtuh_kizr score=5.4 created=2026-06-13 source=observation complexity=simple -->
+<!-- claude-evolve:rule id=r_mqcxxtuh_kizr score=5.1 created=2026-06-13 source=observation complexity=simple -->
 - When verifying a deployed UI change with Playwright, use browser_evaluate to programmatically trigger the UI state (open lightbox, wait for image swap) before taking a screenshot — do not screenshot the idle page
 <!-- /claude-evolve:rule -->
 
-<!-- claude-evolve:rule id=r_mqcxxtv6_2l9r score=5.4 created=2026-06-13 source=observation complexity=simple -->
-- Clean up temporary artefact files (screenshots, debug crops) at the end of the session in the same Bash call as log inspection
-<!-- /claude-evolve:rule -->
-
-<!-- claude-evolve:rule id=r_mqcxxtvu_5m5s score=5.1 created=2026-06-13 source=observation complexity=simple -->
-- Use ToolSearch select: to load only the specific Playwright MCP tool schemas needed for the task before calling them
-<!-- /claude-evolve:rule -->
-
-<!-- claude-evolve:rule id=r_mqcxxtwj_dpjf score=5.1 created=2026-06-13 source=anti_pattern complexity=simple -->
+<!-- claude-evolve:rule id=r_mqcxxtwj_dpjf score=5.5 created=2026-06-13 source=anti_pattern complexity=simple -->
 - Do not Edit an HTML file multiple times in rapid succession without a Read in between — read the current file state first to avoid context drift across edits
 <!-- /claude-evolve:rule -->
 
-<!-- claude-evolve:rule id=r_mqcxxtx8_t2qj score=5.4 created=2026-06-13 source=anti_pattern complexity=simple -->
-- When saving a Playwright screenshot to a custom filename, verify the MCP tool's actual output directory before the call (check docs or prior session notes) — do not assume the file lands in a predictable location and then search for it reactively
+<!-- claude-evolve:rule id=r_mqd18xsn_tt5t score=5.3 created=2026-06-14 source=observation complexity=simple -->
+- After multiple rapid Edits to a single HTML file, run a python3 inline grep check (grep for key identifiers + feature flags) before launching the browser — catches context drift without a full Read
 <!-- /claude-evolve:rule -->
 
-<!-- claude-evolve:rule id=r_mqczzbdx_aeb8 score=5 created=2026-06-13 source=observation complexity=simple -->
-- Always call browser_close before the final cleanup Bash call — ensures browser releases file handles before rm runs
+<!-- claude-evolve:rule id=r_mqd18xtc_89eu score=5 created=2026-06-14 source=observation complexity=simple -->
+- After local Playwright verification passes, commit and push in the same Bash block, then immediately poll the live GitHub Pages URL with curl + cache-buster until the new identifier appears — do not assume push equals live
 <!-- /claude-evolve:rule -->
 
-<!-- claude-evolve:rule id=r_mqczzbem_z2h7 score=5 created=2026-06-13 source=observation complexity=simple -->
-- When verifying a deployed binary asset (image, font, etc.), capture its local size with stat -f%z and poll the remote Content-Length until they match before opening Playwright — avoids verifying a stale CDN-cached version
+<!-- claude-evolve:rule id=r_mqd18xu2_gbbj score=5.3 created=2026-06-14 source=observation complexity=simple -->
+- After Playwright screenshot verification, close the browser and clean up temp screenshot files and the HTTP server in a single Bash block before committing — never leave orphaned processes or temp files
+<!-- /claude-evolve:rule -->
+
+<!-- claude-evolve:rule id=r_mqd18xur_uzoy score=5 created=2026-06-14 source=observation complexity=simple -->
+- When adding a touch/mobile-visible feature (e.g. hover:none delete button), verify both the CSS rule presence AND the rendered UI via Playwright screenshot before committing — grep alone is insufficient
+<!-- /claude-evolve:rule -->
+
+<!-- claude-evolve:rule id=r_mqd18xvg_rtaw score=5.3 created=2026-06-14 source=anti_pattern complexity=simple -->
+- Do not perform 8 sequential Edits to the same HTML file without a Read between the first and last edit — after 4+ edits, Read the file to confirm accumulated state before continuing
 <!-- /claude-evolve:rule -->
 
 <!-- claude-evolve:managed-end -->

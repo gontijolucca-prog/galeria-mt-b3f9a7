@@ -67,6 +67,14 @@
   .meta .sep{width:4px;height:4px;border-radius:50%;background:var(--ink-faint)}
   .meta .hint{color:var(--ink-faint)}
   .meta .hint b{color:var(--gold-deep)}
+  .dlall{margin-top:26px; opacity:0; animation:fade 1s var(--ease) .85s forwards}
+  .dlall a{display:inline-flex; gap:10px; align-items:center; text-decoration:none;
+    font-family:'Archivo';font-weight:700; letter-spacing:.06em; text-transform:uppercase; font-size:12.5px;
+    color:var(--paper); background:var(--ink); padding:15px 28px; border-radius:40px;
+    border:1px solid var(--ink); transition:all .25s var(--ease); box-shadow:0 10px 24px -12px rgba(59,52,42,.6)}
+  .dlall a:hover{background:var(--gold-deep); border-color:var(--gold-deep); transform:translateY(-2px)}
+  .dlall a svg{width:17px;height:17px}
+  .dlall .sz{font-family:'Fraunces',serif;font-style:italic;font-weight:400;text-transform:none;letter-spacing:0;opacity:.75}
 
   /* ---------- grid ---------- */
   .grid{ columns:4 250px; column-gap:18px; padding-bottom:30px; }
@@ -235,6 +243,12 @@
       <span><b id="n">—</b> fotografias</span><span class="sep"></span>
       <span>qualidade total</span><span class="sep"></span>
       <span class="hint">toca p/ ver · <b>↓</b> descarrega original</span>
+    </div>
+    <div class="dlall">
+      <a href="https://github.com/gontijolucca-prog/galeria-mt-b3f9a7/releases/download/fotos-completas/Batizado-Maria-y-Teo.zip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+        Descarregar todas <span class="sz">· .zip</span>
+      </a>
     </div>
   </header>
   <main class="grid" id="grid"></main>
