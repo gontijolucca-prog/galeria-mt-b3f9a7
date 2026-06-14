@@ -91,14 +91,17 @@
   figure:hover .ix{opacity:.95}
   /* discreet delete */
   figure .del{
-    position:absolute; top:8px; right:8px; width:26px; height:26px; border-radius:50%;
-    display:grid; place-items:center; background:rgba(251,247,239,.82); backdrop-filter:blur(4px);
-    color:var(--ink-soft); border:1px solid var(--line); cursor:pointer;
+    position:absolute; top:9px; right:9px; width:34px; height:34px; border-radius:50%;
+    display:grid; place-items:center; background:rgba(38,30,22,.55); backdrop-filter:blur(5px);
+    color:#fff; border:1px solid rgba(255,255,255,.35); cursor:pointer;
     opacity:0; transform:scale(.85); transition:all .25s var(--ease); z-index:3;
+    box-shadow:0 4px 12px -4px rgba(0,0,0,.5);
   }
   figure:hover .del{opacity:1; transform:scale(1)}
-  figure .del:hover{background:#b5524a; color:#fff; border-color:transparent}
-  figure .del svg{width:13px;height:13px}
+  figure .del:hover{background:#b5524a; border-color:transparent}
+  figure .del svg{width:16px;height:16px}
+  /* touch devices have no hover -> keep the delete button visible */
+  @media (hover:none){ figure .del{opacity:.95; transform:scale(1)} }
 
   /* ---------- lightbox ---------- */
   .lb{position:fixed; inset:0; z-index:50; display:none; place-items:center;
@@ -118,6 +121,8 @@
     background:var(--ink); color:var(--paper); border:1px solid var(--ink)}
   .lb .btn:hover{background:var(--gold-deep); border-color:var(--gold-deep); transform:translateY(-2px)}
   .lb .btn svg{width:15px;height:15px}
+  .lb .btn.ghost{background:var(--card); color:#a8443d; border-color:var(--line)}
+  .lb .btn.ghost:hover{background:#b5524a; color:#fff; border-color:transparent}
   .lb .nav{position:absolute; top:50%; transform:translateY(-50%); width:50px;height:50px;border-radius:50%;
     background:var(--card); border:1px solid var(--line); color:var(--ink); display:grid; place-items:center;
     cursor:pointer; transition:all .25s; user-select:none; font-size:20px;
@@ -253,8 +258,12 @@
   <div class="bar">
     <a class="btn" id="lbDl" download>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
-      Descarregar original
+      Descarregar
     </a>
+    <button class="btn ghost" id="lbDelete">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg>
+      Apagar
+    </button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -263,7 +272,7 @@
 const ICON_DL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>';
 const ICON_X='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 const KEY='mt_removed';
-let PHOTOS=[], VIS=[], cur=0;
+let PHOTOS=[], VIS=[], cur=0, figByFile={};
 const removed=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'));
 const grid=document.getElementById('grid');
 const lb=document.getElementById('lb'), lbImg=document.getElementById('lbImg'),
@@ -299,7 +308,7 @@ gatePw.addEventListener('keydown',e=>{ if(e.key==='Enter')tryGate(); });
 setTimeout(()=>{ if(!document.body.classList.contains('unlocked')) gatePw.focus(); }, 200);
 
 function render(){
-  grid.innerHTML='';
+  grid.innerHTML=''; figByFile={};
   VIS=PHOTOS.filter(p=>!removed.has(p.f));
   document.getElementById('n').textContent=VIS.length;
   // strict lazy-load: only fetch a tile's image when it nears the viewport
@@ -320,6 +329,7 @@ function render(){
       <span class="ix">${String(i+1).padStart(3,'0')}</span>`;
     fig.querySelector('img').addEventListener('click',()=>open_(i));
     fig.querySelector('.del').addEventListener('click',(e)=>{e.stopPropagation(); del(p.f, fig);});
+    figByFile[p.f]=fig;
     grid.appendChild(fig); io.observe(fig);
   });
   updateTrash();
@@ -335,8 +345,9 @@ function del(f, fig){
   delModal.classList.add('on'); setTimeout(()=>delPw.focus(),60);
 }
 function doDelete(f, fig){
-  fig.classList.add('gone');
+  if(fig) fig.classList.add('gone');
   removed.add(f); localStorage.setItem(KEY, JSON.stringify([...removed]));
+  if(lb.classList.contains('on')) close_();   // close preview if deleting from lightbox
   setTimeout(render, 380);
   showToast('Foto apagada');
 }
@@ -386,6 +397,7 @@ function nav(d){cur=(cur+d+VIS.length)%VIS.length; show();}
 document.getElementById('lbClose').onclick=close_;
 document.getElementById('lbPrev').onclick=()=>nav(-1);
 document.getElementById('lbNext').onclick=()=>nav(1);
+document.getElementById('lbDelete').onclick=()=>{ const p=VIS[cur]; if(p) del(p.f, figByFile[p.f]); };
 lb.addEventListener('click',e=>{if(e.target===lb)close_()});
 document.addEventListener('keydown',e=>{
   if(!lb.classList.contains('on'))return;
